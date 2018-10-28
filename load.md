@@ -79,7 +79,7 @@ func Load(config Config) error {
 ```
 
 - [x] [readFile](#readfile) 
-- [ ] [mapToDest](#maptodest)
+- [x] [mapToDest](#maptodest)
 
 ### readFile
 ```go
@@ -129,43 +129,44 @@ func readFile(path string, separator rune, header []string) (map[string]int, [][
 
 ### mapToDest
 ```go
-// Map the provided content to the dest using the header and the tags
-// @param header: the csv header to match with the struct's tags
-// @param content: the content to put in dest
-// @param dest: the destination where to put the file's content
+// Map 提供的 content 到 dest 配搭  header 和 tags
+// @param header: csv header 匹配 结构的 tags
+// @param content: 要放入 dest 的内容
+// @param dest: 最终 文件内容的目的地，一般由用户给出
 func mapToDest(header map[string]int, content [][]string, dest interface{}) error {
-	// Check destination is not nil
+	// 检测 目的地 不是 nil
 	if dest == nil {
 		return fmt.Errorf("Destination slice is nil")
 	}
-	// Check destination is a slice
+	// 检测 目的地是 slice
 	if reflect.TypeOf(dest).Elem().Kind() != reflect.Slice {
 		return fmt.Errorf("Destination is not a slice")
 	}
-	// Create the slice the put the values in
-	// Get the reflected value of dest
+	// 创建 放入 值 的 slice 
+	// 给出 dest 的 反映值
 	destRv := reflect.ValueOf(dest).Elem()
-	// Create a new reflected value containing a slice:
-	//   type    : dest's type
-	//   length  : content's length
-	//   capacity: content's length
+
+	// 创建一个新的slice，其中 反映 值 和 包括 :
+	//   type    : dest's 类型
+	//   length  : content's 长度
+	//   capacity: content's 容量
 	sliceRv := reflect.MakeSlice(destRv.Type(), len(content), len(content))
-	// Map the records into the created slice
+	// Map csv文件的内容数组 到 新建的 slice
 	for i, record := range content {
-		item := sliceRv.Index(i) // Get the ieme item from the slice
-		// Map all fields into the item
+		item := sliceRv.Index(i) // 获取 索引 i ， 的切片
+		// Map 所有字段 到 item
 		for j := 0; j < item.NumField(); j++ {
-			fieldTag := item.Type().Field(j).Tag.Get("csv") // Get the tag of the jeme field of the struct
+			fieldTag := item.Type().Field(j).Tag.Get("csv") // 获得 用户定义的 结构中的对应csv tag字段
 			if fieldTag == "" {
 				continue
 			}
-			fieldRv := item.Field(j) // Get the reflected value of the field
+			fieldRv := item.Field(j) // 获得 字段的 反映值
 			fieldPos, ok := header[fieldTag]
 			if !ok {
 				continue
 			}
-			rawVal := record[fieldPos]         // Get the value from the record
-			err := storeValue(rawVal, fieldRv) // Store the value in the reflected field
+			rawVal := record[fieldPos]         // 从原解析的csv文件内容，拿到原字符串
+			err := storeValue(rawVal, fieldRv) // 存储 原字符串到 对应的字段
 			if err != nil {
 				return fmt.Errorf("record: %v to slice: %v:\n	==> %v", record, item, err)
 			}
@@ -177,29 +178,29 @@ func mapToDest(header map[string]int, content [][]string, dest interface{}) erro
 }
 ```
 
-- [ ] [storeValue](#storevalue)
+- [x] [storeValue](#storevalue)
 
 ### storeValue
 ```go
-// Set the value of the valRv to rawVal
-// Make some parsing if needed
-// @param rawVal: the value, as a string, that we want to store
-// @param valRv: the reflected value where we want to store our value
-// @return an error if one occurs
+// 设置 valRv 对应字段 成 rawVal
+// 如果有需要，要解析
+// @param rawVal: 我们想存储的 字符串，也就是csv的内容
+// @param valRv: 我们想存放的位置，的反映值，
+// @return 错误/nil
 func storeValue(rawVal string, valRv reflect.Value) error {
 	switch valRv.Kind() {
-	case reflect.String:
+	case reflect.String: // 如果 字段类型 是 字符串
 		valRv.SetString(rawVal)
-	case reflect.Int:
-		// Parse the value to an int
+	case reflect.Int: // 如果字段类型 是 整数
+		// 解析 字符串 到 整数
 		value, err := strconv.ParseInt(rawVal, 10, 64)
 		if err != nil && rawVal != "" {
 			return fmt.Errorf("Error parsing int '%v':\n	==> %v", rawVal, err)
 
 		}
 		valRv.SetInt(value)
-	case reflect.Float64:
-		// Parse the value to an float
+	case reflect.Float64: // 如果字段类型是 浮点数
+		// 解析 字符串 到 浮点数
 		value, err := strconv.ParseFloat(rawVal, 64)
 		if err != nil && rawVal != "" {
 			return fmt.Errorf("Error parsing float '%v':\n	==> %v", rawVal, err)
