@@ -52,13 +52,13 @@ err  := csvtag.Load(csvtag.Config{          //  使用适当的配置加载csv
 go代码:
 
 ```go
-type Demo struct {                         // A structure with tags
+type Demo struct {                         // tag的结构
 	Name string  `csv:"name"`
 	ID   int     `csv:"ID"`
 	Num  float64 `csv:"number"`
 }
 
-tab := []Demo{                             // Create the slice where to put the file content
+tab := []Demo{                             // 创建 放入 文件内容 的切片
 	Demo{
 		Name: "some name",
 		ID: 1,
