@@ -11,7 +11,7 @@
 
 ---
 
-## explain 🀄️
+## explain ✅
 
 <!-- doc-templite START generated -->
 <!-- time = '2018-10-15' -->
@@ -44,10 +44,19 @@
 
 ### 加载
 
-- [ ] [Load](./load.md#load)
+- [x] [Load](./load.md#load)
 
 ### 导出
 
-- [ ] [DumpToFile](./dump.md#dumptofile)
+- [x] [DumpToFile](./dump.md#dumptofile)
 
-- [ ] [Dump](./dump.md#dump)
+- [x] [Dump](./dump.md#dump)
+
+## 收获
+
+1. [godoc文档的写法](load.md#%E6%9C%89%E5%85%B3%E9%A1%B9%E7%9B%AE%E7%9A%84godoc%E6%96%87%E6%A1%A3)
+2. 原生csv的用法 [读取](load.md#readfile) 与 [写入](dump.md#dump)
+3. 原生`reflect`包的[用法](load.md#maptodest)，用来验证结构与接口类型
+...
+
+> **reflect-反射**就是用来检测存储在接口变量内部(值value；类型concrete type) pair对的一种机制。

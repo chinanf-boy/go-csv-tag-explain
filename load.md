@@ -2,8 +2,19 @@
 
 ## 目录
 
-<!-- START doctoc -->
-<!-- END doctoc -->
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [有关项目的godoc文档](#%E6%9C%89%E5%85%B3%E9%A1%B9%E7%9B%AE%E7%9A%84godoc%E6%96%87%E6%A1%A3)
+  - [package + import](#package--import)
+  - [Config-结构](#config-%E7%BB%93%E6%9E%84)
+  - [Load-加载函数](#load-%E5%8A%A0%E8%BD%BD%E5%87%BD%E6%95%B0)
+  - [readFile](#readfile)
+  - [mapToDest](#maptodest)
+  - [storeValue](#storevalue)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## 有关项目的godoc文档
 
@@ -143,10 +154,10 @@ func mapToDest(header map[string]int, content [][]string, dest interface{}) erro
 		return fmt.Errorf("Destination is not a slice")
 	}
 	// 创建 放入 值 的 slice 
-	// 给出 dest 的 反映值
+	// 给出 dest 的 反射值
 	destRv := reflect.ValueOf(dest).Elem()
 
-	// 创建一个新的slice，其中 反映 值 和 包括 :
+	// 创建一个新的slice，其中 反射 值 和 包括 :
 	//   type    : dest's 类型
 	//   length  : content's 长度
 	//   capacity: content's 容量
@@ -160,7 +171,7 @@ func mapToDest(header map[string]int, content [][]string, dest interface{}) erro
 			if fieldTag == "" {
 				continue
 			}
-			fieldRv := item.Field(j) // 获得 字段的 反映值
+			fieldRv := item.Field(j) // 获得 字段的 反射值
 			fieldPos, ok := header[fieldTag]
 			if !ok {
 				continue
@@ -178,6 +189,10 @@ func mapToDest(header map[string]int, content [][]string, dest interface{}) erro
 }
 ```
 
+- `reflect`.**TypeOf/ValueOf** [掘金](https://juejin.im/post/5a75a4fb5188257a82110544)
+
+> 反射仅是一种用来检测存储在接口变量内部(值value,实例类型concret type)pair对的一种机制。
+
 - [x] [storeValue](#storevalue)
 
 ### storeValue
@@ -185,7 +200,7 @@ func mapToDest(header map[string]int, content [][]string, dest interface{}) erro
 // 设置 valRv 对应字段 成 rawVal
 // 如果有需要，要解析
 // @param rawVal: 我们想存储的 字符串，也就是csv的内容
-// @param valRv: 我们想存放的位置，的反映值，
+// @param valRv: 我们想存放的位置，的反射值，
 // @return 错误/nil
 func storeValue(rawVal string, valRv reflect.Value) error {
 	switch valRv.Kind() {
