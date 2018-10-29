@@ -11,17 +11,16 @@
 
 ---
 
-## explain ✅
+## explain 测试 中
 
 <!-- doc-templite START generated -->
 <!-- time = '2018-10-15' -->
 <!-- name = 'artonge' -->
 <!-- repo = 'go-csv-tag' -->
 <!-- commit = 'bc1820d9d402f8c0de5d026cd91b3738f1a16791' -->
-
-| 版本     | 与日期        | 最新更新   | 更多               |
-| -------- | ------------- | ---------- | ------------------ |
-| [commit] | ⏰ 2018-10-15 | ![version] | [源码解释][source] |
+版本 | 与日期 | 最新更新 | 更多
+---|---|---|---
+[commit] | ⏰ 2018-10-15 | ![version] | [源码解释][source]
 
 [commit]: https://github.com/artonge/go-csv-tag/tree/bc1820d9d402f8c0de5d026cd91b3738f1a16791
 [version]: https://img.shields.io/npm/v/go-csv-tag.svg
@@ -46,11 +45,15 @@
 
 - [x] [Load](./load.md#load)
 
+- [ ] [load_test](./load_test.md)
+
 ### 导出
 
 - [x] [DumpToFile](./dump.md#dumptofile)
 
 - [x] [Dump](./dump.md#dump)
+
+- [ ] [dump_test](./dump_test.md)
 
 ## 收获
 
