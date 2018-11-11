@@ -1,7 +1,5 @@
 ## csvtag/csvtag_test.go
 
-因为，在补全go项目的完整过程，所以测试也看看
-
 ### package + import
 
 ``` go
@@ -10,7 +8,7 @@ package csvtag
 import "testing"
 ```
 
-###
+### test+/NoID结构
 ``` go
 type test struct {
 	Name string  `csv:"header1"`
@@ -18,12 +16,18 @@ type test struct {
 	Num  float64 `csv:"header3"`
 }
 
+
 type testNoID struct {
 	Name string `csv:"header1"`
 	ID   int
 	Num  float64 `csv:"header"`
 }
 
+```
+
+### checkValues
+
+```go
 // Check the values are correct
 func checkValues(tabT []test) bool {
 	return false ||
@@ -32,6 +36,13 @@ func checkValues(tabT []test) bool {
 		tabT[2].Name != "line3" || tabT[2].ID != 3 || tabT[2].Num != 3.4
 }
 
+```
+
+### 测试用例
+
+#### TestValideFile
+
+```go
 func TestValideFile(t *testing.T) {
 	tabT := []test{}
 	err := Load(Config{
@@ -43,6 +54,11 @@ func TestValideFile(t *testing.T) {
 	}
 }
 
+```
+
+#### TestBadHeader
+
+```go
 func TestBadHeader(t *testing.T) {
 	tabT := []test{}
 	err := Load(Config{
@@ -54,6 +70,11 @@ func TestBadHeader(t *testing.T) {
 	}
 }
 
+```
+
+#### TestMissATag
+
+```go
 func TestMissATag(t *testing.T) {
 	tabT := []testNoID{}
 	err := Load(Config{
@@ -68,6 +89,11 @@ func TestMissATag(t *testing.T) {
 	}
 }
 
+```
+
+#### TestEmptyFile
+
+```go
 func TestEmptyFile(t *testing.T) {
 	tabT := []test{}
 	err := Load(Config{
@@ -79,6 +105,11 @@ func TestEmptyFile(t *testing.T) {
 	}
 }
 
+```
+
+#### TestNoHeader
+
+```go
 func TestNoHeader(t *testing.T) {
 	tabT := []test{}
 	err := Load(Config{
@@ -91,6 +122,11 @@ func TestNoHeader(t *testing.T) {
 	}
 }
 
+```
+
+#### TestWithSemicolon
+
+```go
 func TestWithSemicolon(t *testing.T) {
 	tabT := []test{}
 	err := Load(Config{
@@ -103,6 +139,11 @@ func TestWithSemicolon(t *testing.T) {
 	}
 }
 
+```
+
+#### TestBadFormat
+
+```go
 func TestBadFormat(t *testing.T) {
 	tabT := []test{}
 	err := Load(Config{
@@ -114,6 +155,11 @@ func TestBadFormat(t *testing.T) {
 	}
 }
 
+```
+
+#### TestNonexistingFile
+
+```go
 func TestNonexistingFile(t *testing.T) {
 	tabT := []test{}
 	err := Load(Config{
@@ -125,6 +171,11 @@ func TestNonexistingFile(t *testing.T) {
 	}
 }
 
+```
+
+#### TestBadInt
+
+```go
 func TestBadInt(t *testing.T) {
 	tabT := []test{}
 	err := Load(Config{
@@ -136,6 +187,11 @@ func TestBadInt(t *testing.T) {
 	}
 }
 
+```
+
+#### TestBadFloat
+
+```go
 func TestBadFloat(t *testing.T) {
 	tabT := []test{}
 	err := Load(Config{
@@ -147,6 +203,11 @@ func TestBadFloat(t *testing.T) {
 	}
 }
 
+```
+
+#### TestNotPath
+
+```go
 func TestNotPath(t *testing.T) {
 	err := Load(Config{
 		Dest: &[]test{},
@@ -156,6 +217,11 @@ func TestNotPath(t *testing.T) {
 	}
 }
 
+```
+
+#### TestNoDest
+
+```go
 func TestNoDest(t *testing.T) {
 	err := Load(Config{
 		Path: "csv_files/valid.csv",
@@ -165,6 +231,11 @@ func TestNoDest(t *testing.T) {
 	}
 }
 
+```
+
+#### TestNoDist
+
+```go
 func TestNoDist(t *testing.T) {
 	err := Load(Config{
 		Path: "csv_files/valid.csv",

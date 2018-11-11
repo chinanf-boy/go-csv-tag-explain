@@ -11,7 +11,7 @@
 
 ---
 
-## explain 测试 中
+## explain ✅
 
 <!-- doc-templite START generated -->
 <!-- time = '2018-10-15' -->
@@ -23,7 +23,7 @@
 [commit] | ⏰ 2018-10-15 | ![version] | [源码解释][source]
 
 [commit]: https://github.com/artonge/go-csv-tag/tree/bc1820d9d402f8c0de5d026cd91b3738f1a16791
-[version]: https://img.shields.io/npm/v/go-csv-tag.svg
+[version]: https://img.shields.io/github/last-commit/artonge/go-csv-tag.svg
 
 <!-- doc-templite END generated -->
 
@@ -41,11 +41,13 @@
 
 ## 加载与导出
 
+因为，在补全go项目的完整过程，所以测试也看看
+
 ### 加载
 
 - [x] [Load](./load.md#load)
 
-- [ ] [load_test](./load_test.md)
+- [x] [load_test](./load_test.md)
 
 ### 导出
 
@@ -53,7 +55,7 @@
 
 - [x] [Dump](./dump.md#dump)
 
-- [ ] [dump_test](./dump_test.md)
+- [x] [dump_test](./dump_test.md)
 
 ## 收获
 
